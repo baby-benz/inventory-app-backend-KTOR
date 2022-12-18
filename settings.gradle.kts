@@ -1,0 +1,1 @@
+rootProject.name = "android_kotlin_ktor_backend"
