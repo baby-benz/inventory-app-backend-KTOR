@@ -24,8 +24,14 @@ class DefaultProductDAL : ProductDAL {
         Product.new {
             name = toSave.name
             price = toSave.price
-            producer = Producer[toSave.producerId]
-            supplier = Supplier[toSave.supplierId]
+            producer = when (toSave.producerId) {
+                null -> { null }
+                else -> { Producer[toSave.producerId] }
+            }
+            supplier = when (toSave.supplierId) {
+                null -> { null }
+                else -> { Supplier[toSave.supplierId] }
+            }
         }.toResponse()
     }
 
@@ -33,8 +39,14 @@ class DefaultProductDAL : ProductDAL {
         Product.new(id) {
             name = toSave.name
             price = toSave.price
-            producer = Producer[toSave.producerId]
-            supplier = Supplier[toSave.supplierId]
+            producer = when (toSave.producerId) {
+                null -> { null }
+                else -> { Producer[toSave.producerId] }
+            }
+            supplier = when (toSave.supplierId) {
+                null -> { null }
+                else -> { Supplier[toSave.supplierId] }
+            }
         }.toResponse()
     }
 

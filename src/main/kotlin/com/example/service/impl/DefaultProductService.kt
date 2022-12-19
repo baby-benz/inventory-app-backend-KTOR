@@ -33,9 +33,9 @@ class DefaultProductService : ProductService {
     }
 
     private suspend fun checkReference(product: ProductRequest) {
-        if (!producerDal.existsById(product.producerId)) {
+        if (product.producerId != null && !producerDal.existsById(product.producerId)) {
             throw BadReferenceException(product.producerId.toString())
-        } else if(!supplierDal.existsById(product.supplierId)) {
+        } else if(product.supplierId != null && !supplierDal.existsById(product.supplierId)) {
             throw BadReferenceException(product.producerId.toString())
         }
     }

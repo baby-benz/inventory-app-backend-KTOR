@@ -8,6 +8,6 @@ import java.util.*
 data class ProductRequest(
     val name: String,
     val price: Double,
-    @Serializable(with = UUIDSerializer::class) val producerId: UUID,
-    @Serializable(with = UUIDSerializer::class) val supplierId: UUID
+    @Serializable(with = UUIDSerializer::class) val producerId: UUID?,
+    @Serializable(with = UUIDSerializer::class) val supplierId: UUID?
 )
