@@ -1,6 +1,6 @@
 package com.example.plugins
 
-import com.example.domain.dto.request.SupplierRequest
+import com.example.domain.dto.request.supplier.SupplierRequest
 import com.google.i18n.phonenumbers.NumberParseException
 import com.google.i18n.phonenumbers.PhoneNumberUtil
 import com.google.i18n.phonenumbers.Phonenumber

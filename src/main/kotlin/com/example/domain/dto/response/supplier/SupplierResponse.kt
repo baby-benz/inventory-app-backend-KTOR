@@ -1,4 +1,4 @@
-package com.example.domain.dto.response
+package com.example.domain.dto.response.supplier
 
 import com.example.domain.dto.serialization.UUIDSerializer
 import com.example.domain.models.Supplier

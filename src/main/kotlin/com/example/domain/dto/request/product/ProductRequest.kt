@@ -1,4 +1,4 @@
-package com.example.domain.dto.request
+package com.example.domain.dto.request.product
 
 import com.example.domain.dto.serialization.UUIDSerializer
 import kotlinx.serialization.Serializable

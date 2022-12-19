@@ -2,8 +2,8 @@ package com.example.dal.impl
 
 import com.example.dal.DatabaseFactory.dbQuery
 import com.example.dal.ProducerDAL
-import com.example.domain.dto.request.ProducerRequest
-import com.example.domain.dto.response.ProducerResponse
+import com.example.domain.dto.request.producer.ProducerRequest
+import com.example.domain.dto.response.producer.ProducerResponse
 import com.example.domain.models.*
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq

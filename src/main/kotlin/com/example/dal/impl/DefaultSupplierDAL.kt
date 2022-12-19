@@ -2,8 +2,8 @@ package com.example.dal.impl
 
 import com.example.dal.DatabaseFactory.dbQuery
 import com.example.dal.SupplierDAL
-import com.example.domain.dto.request.SupplierRequest
-import com.example.domain.dto.response.SupplierResponse
+import com.example.domain.dto.request.supplier.SupplierRequest
+import com.example.domain.dto.response.supplier.SupplierResponse
 import com.example.domain.models.Supplier
 import com.example.domain.models.Suppliers
 import org.jetbrains.exposed.sql.*

@@ -2,8 +2,8 @@ package com.example.dal.impl
 
 import com.example.dal.DatabaseFactory.dbQuery
 import com.example.dal.ProductCategoryDAL
-import com.example.domain.dto.request.ProductCategoryRequest
-import com.example.domain.dto.response.ProductCategoryResponse
+import com.example.domain.dto.request.product_category.ProductCategoryRequest
+import com.example.domain.dto.response.product_category.ProductCategoryResponse
 import com.example.domain.models.ProducersProductCategories
 import com.example.domain.models.ProductCategories
 import com.example.domain.models.ProductCategory

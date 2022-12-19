@@ -4,8 +4,8 @@ import com.example.dal.ProductDAL
 import com.example.dal.SupplierDAL
 import com.example.dal.impl.DefaultProductDAL
 import com.example.dal.impl.DefaultSupplierDAL
-import com.example.domain.dto.request.SupplierRequest
-import com.example.domain.dto.response.SupplierResponse
+import com.example.domain.dto.request.supplier.SupplierRequest
+import com.example.domain.dto.response.supplier.SupplierResponse
 import com.example.service.SupplierService
 import com.example.service.impl.exceptions.ReferenceViolationException
 import java.util.*

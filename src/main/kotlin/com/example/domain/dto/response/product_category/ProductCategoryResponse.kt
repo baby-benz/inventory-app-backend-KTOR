@@ -1,6 +1,6 @@
-package com.example.domain.dto.response
+package com.example.domain.dto.response.product_category
 
-import com.example.domain.dto.request.ProductCategoryRequest
+import com.example.domain.dto.request.product_category.ProductCategoryRequest
 import com.example.domain.dto.serialization.UUIDSerializer
 import com.example.domain.models.ProductCategory
 import kotlinx.serialization.Serializable

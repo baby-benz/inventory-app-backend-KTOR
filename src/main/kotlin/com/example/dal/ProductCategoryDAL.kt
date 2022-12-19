@@ -1,7 +1,7 @@
 package com.example.dal
 
-import com.example.domain.dto.request.ProductCategoryRequest
-import com.example.domain.dto.response.ProductCategoryResponse
+import com.example.domain.dto.request.product_category.ProductCategoryRequest
+import com.example.domain.dto.response.product_category.ProductCategoryResponse
 import java.util.*
 
 interface ProductCategoryDAL : DAL<ProductCategoryRequest, ProductCategoryResponse> {

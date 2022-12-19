@@ -2,9 +2,8 @@ package com.example.service.impl
 
 import com.example.dal.ProductCategoryDAL
 import com.example.dal.impl.DefaultProductCategoryDAL
-import com.example.domain.dto.request.ProductCategoryRequest
-import com.example.domain.dto.response.ProducerResponse
-import com.example.domain.dto.response.ProductCategoryResponse
+import com.example.domain.dto.request.product_category.ProductCategoryRequest
+import com.example.domain.dto.response.product_category.ProductCategoryResponse
 import com.example.service.ProductCategoryService
 import com.example.service.impl.exceptions.DuplicateCategoryException
 import java.util.*

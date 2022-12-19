@@ -1,6 +1,6 @@
 package com.example.domain.models
 
-import com.example.domain.dto.response.ProductCategoryResponse
+import com.example.domain.dto.response.product_category.ProductCategoryResponse
 import org.jetbrains.exposed.dao.UUIDEntity
 import org.jetbrains.exposed.dao.UUIDEntityClass
 import org.jetbrains.exposed.dao.id.EntityID

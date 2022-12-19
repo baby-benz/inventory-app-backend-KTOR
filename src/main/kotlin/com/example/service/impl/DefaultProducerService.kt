@@ -6,8 +6,8 @@ import com.example.dal.ProductDAL
 import com.example.dal.impl.DefaultProducerDAL
 import com.example.dal.impl.DefaultProductCategoryDAL
 import com.example.dal.impl.DefaultProductDAL
-import com.example.domain.dto.request.ProducerRequest
-import com.example.domain.dto.response.ProducerResponse
+import com.example.domain.dto.request.producer.ProducerRequest
+import com.example.domain.dto.response.producer.ProducerResponse
 import com.example.service.ProducerService
 import com.example.service.impl.exceptions.BadReferenceException
 import com.example.service.impl.exceptions.ReferenceViolationException

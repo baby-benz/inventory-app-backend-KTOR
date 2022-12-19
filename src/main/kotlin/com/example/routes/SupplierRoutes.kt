@@ -1,6 +1,6 @@
 package com.example.routes
 
-import com.example.domain.dto.request.SupplierRequest
+import com.example.domain.dto.request.supplier.SupplierRequest
 import com.example.service.SupplierService
 import com.example.service.impl.DefaultSupplierService
 import io.ktor.http.*

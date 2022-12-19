@@ -1,6 +1,6 @@
 package com.example.routes
 
-import com.example.domain.dto.request.ProductCategoryRequest
+import com.example.domain.dto.request.product_category.ProductCategoryRequest
 import com.example.service.ProductCategoryService
 import com.example.service.impl.DefaultProductCategoryService
 import io.ktor.http.*

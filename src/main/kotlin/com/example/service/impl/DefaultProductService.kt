@@ -6,8 +6,8 @@ import com.example.dal.SupplierDAL
 import com.example.dal.impl.DefaultProducerDAL
 import com.example.dal.impl.DefaultProductDAL
 import com.example.dal.impl.DefaultSupplierDAL
-import com.example.domain.dto.request.ProductRequest
-import com.example.domain.dto.response.ProductResponse
+import com.example.domain.dto.request.product.ProductRequest
+import com.example.domain.dto.response.product.ProductResponse
 import com.example.service.ProductService
 import com.example.service.impl.exceptions.BadReferenceException
 import java.util.*

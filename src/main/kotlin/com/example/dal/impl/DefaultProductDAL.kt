@@ -2,8 +2,8 @@ package com.example.dal.impl
 
 import com.example.dal.DatabaseFactory.dbQuery
 import com.example.dal.ProductDAL
-import com.example.domain.dto.request.ProductRequest
-import com.example.domain.dto.response.ProductResponse
+import com.example.domain.dto.request.product.ProductRequest
+import com.example.domain.dto.response.product.ProductResponse
 import com.example.domain.models.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.deleteWhere
