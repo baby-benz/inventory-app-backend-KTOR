@@ -7,11 +7,11 @@ import com.example.domain.dto.response.ProductResponse
 import com.example.domain.models.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.deleteWhere
-import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.update
 import java.util.*
 
 class DefaultProductDAL : ProductDAL {
+
     override suspend fun all(): List<ProductResponse> = dbQuery {
         Product.all().map { product -> product.toResponse() }
     }
@@ -24,14 +24,8 @@ class DefaultProductDAL : ProductDAL {
         Product.new {
             name = toSave.name
             price = toSave.price
-            producer = when (toSave.producerId) {
-                null -> { null }
-                else -> { Producer[toSave.producerId] }
-            }
-            supplier = when (toSave.supplierId) {
-                null -> { null }
-                else -> { Supplier[toSave.supplierId] }
-            }
+            producer = Producer[toSave.producerId]
+            supplier = Supplier[toSave.supplierId]
         }.toResponse()
     }
 
@@ -39,14 +33,8 @@ class DefaultProductDAL : ProductDAL {
         Product.new(id) {
             name = toSave.name
             price = toSave.price
-            producer = when (toSave.producerId) {
-                null -> { null }
-                else -> { Producer[toSave.producerId] }
-            }
-            supplier = when (toSave.supplierId) {
-                null -> { null }
-                else -> { Supplier[toSave.supplierId] }
-            }
+            producer = Producer[toSave.producerId]
+            supplier = Supplier[toSave.supplierId]
         }.toResponse()
     }
 
@@ -64,6 +52,13 @@ class DefaultProductDAL : ProductDAL {
     }
 
     override suspend fun existsById(id: UUID): Boolean = dbQuery {
-        !Products.select { Products.id eq id }.empty()
+        !Product.find { Products.id eq id }.empty()
+    }
+    override suspend fun existsByProducer(producerId: UUID): Boolean = dbQuery {
+        !Product.find { Products.producer eq producerId }.empty()
+    }
+
+    override suspend fun existsBySupplier(supplierId: UUID): Boolean = dbQuery {
+        !Product.find { Products.supplier eq supplierId }.empty()
     }
 }

@@ -9,7 +9,6 @@ import com.example.domain.models.ProductCategories
 import com.example.domain.models.ProductCategory
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.deleteWhere
-import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.update
 import java.util.*
 
@@ -46,10 +45,10 @@ class DefaultProductCategoryDAL : ProductCategoryDAL {
     }
 
     override suspend fun existsById(id: UUID): Boolean = dbQuery {
-        !ProductCategories.select { ProductCategories.id eq id }.empty()
+        !ProductCategory.find { ProductCategories.id eq id }.empty()
     }
 
     override suspend fun existsByCategory(category: String): Boolean = dbQuery {
-        !ProductCategories.select { ProductCategories.category eq category }.empty()
+        !ProductCategory.find { ProductCategories.category eq category }.empty()
     }
 }

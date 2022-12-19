@@ -61,6 +61,6 @@ class DefaultProducerDAL : ProducerDAL {
     }
 
     override suspend fun existsById(id: UUID): Boolean = dbQuery {
-        !Producers.select { Producers.id eq id }.empty()
+        !Producer.find { Producers.id eq id }.empty()
     }
 }

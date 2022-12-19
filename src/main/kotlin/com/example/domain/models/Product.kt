@@ -11,8 +11,8 @@ import java.util.*
 object Products : UUIDTable("product") {
     val name = varchar("name", 256)
     val price = double("price")
-    val producer = reference("producer_id", Producers, onDelete = ReferenceOption.SET_NULL).nullable()
-    val supplier = reference("supplier_id", Suppliers, onDelete = ReferenceOption.SET_NULL).nullable()
+    val producer = reference("producer_id", Producers, onDelete = ReferenceOption.RESTRICT)
+    val supplier = reference("supplier_id", Suppliers, onDelete = ReferenceOption.RESTRICT)
 }
 
 class Product(id: EntityID<UUID>): UUIDEntity(id) {
@@ -20,8 +20,8 @@ class Product(id: EntityID<UUID>): UUIDEntity(id) {
 
     var name by Products.name
     var price by Products.price
-    var producer by Producer optionalReferencedOn Products.producer
-    var supplier by Supplier optionalReferencedOn Products.supplier
+    var producer by Producer referencedOn Products.producer
+    var supplier by Supplier referencedOn Products.supplier
 
     fun toResponse() = ProductResponse(this)
 }

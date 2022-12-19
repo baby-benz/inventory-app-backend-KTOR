@@ -8,7 +8,6 @@ import com.example.dal.impl.DefaultProductDAL
 import com.example.dal.impl.DefaultSupplierDAL
 import com.example.domain.dto.request.ProductRequest
 import com.example.domain.dto.response.ProductResponse
-import com.example.domain.dto.response.SupplierResponse
 import com.example.service.ProductService
 import com.example.service.impl.exceptions.BadReferenceException
 import java.util.*
@@ -33,9 +32,9 @@ class DefaultProductService : ProductService {
     }
 
     private suspend fun checkReference(product: ProductRequest) {
-        if (product.producerId != null && !producerDal.existsById(product.producerId)) {
+        if (!producerDal.existsById(product.producerId)) {
             throw BadReferenceException(product.producerId.toString())
-        } else if(product.supplierId != null && !supplierDal.existsById(product.supplierId)) {
+        } else if(!supplierDal.existsById(product.supplierId)) {
             throw BadReferenceException(product.producerId.toString())
         }
     }

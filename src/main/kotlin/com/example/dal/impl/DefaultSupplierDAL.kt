@@ -1,6 +1,5 @@
 package com.example.dal.impl
 
-import com.example.dal.DAL
 import com.example.dal.DatabaseFactory.dbQuery
 import com.example.dal.SupplierDAL
 import com.example.domain.dto.request.SupplierRequest
@@ -25,10 +24,6 @@ class DefaultSupplierDAL : SupplierDAL {
 
     override suspend fun find(id: UUID): SupplierResponse? = dbQuery {
         Suppliers.select { Suppliers.id eq id }.map(::resultRowToSupplier).singleOrNull()
-    }
-
-    override suspend fun existsById(id: UUID): Boolean = dbQuery {
-        !Suppliers.select { Suppliers.id eq id }.empty()
     }
 
     override suspend fun save(toSave: SupplierRequest): SupplierResponse = dbQuery {
@@ -57,5 +52,9 @@ class DefaultSupplierDAL : SupplierDAL {
 
     override suspend fun delete(id: UUID): Boolean = dbQuery {
         Suppliers.deleteWhere { Suppliers.id eq id } > 0
+    }
+
+    override suspend fun existsById(id: UUID): Boolean = dbQuery {
+        !Supplier.find { Suppliers.id eq id }.empty()
     }
 }

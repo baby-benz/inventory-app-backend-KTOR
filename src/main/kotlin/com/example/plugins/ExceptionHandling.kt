@@ -3,6 +3,7 @@ package com.example.plugins
 import com.example.service.impl.exceptions.BadReferenceException
 import com.example.service.impl.exceptions.DuplicateCategoryException
 import com.example.service.impl.exceptions.NotFoundException
+import com.example.service.impl.exceptions.ReferenceViolationException
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.plugins.requestvalidation.*
@@ -23,6 +24,9 @@ fun Application.configureExceptionHandling() {
         exception<DuplicateCategoryException> { call, cause ->
             respondBadRequest(call, cause)
         }
+        exception<ReferenceViolationException> { call, cause ->
+            respondConflict(call, cause)
+        }
         exception<Exception> { call, cause ->
             respondInternalServerError(call, cause)
         }
@@ -39,4 +43,8 @@ suspend fun respondNotFound(call: ApplicationCall, cause: Exception) {
 
 suspend fun respondInternalServerError(call: ApplicationCall, cause: Exception) {
     call.respond(HttpStatusCode.InternalServerError, cause.message!!)
+}
+
+suspend fun respondConflict(call: ApplicationCall, cause: Exception) {
+    call.respond(HttpStatusCode.Conflict, cause.message!!)
 }
