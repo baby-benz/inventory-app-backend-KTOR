@@ -11,18 +11,28 @@ import io.ktor.server.routing.*
 import java.util.*
 
 fun Route.productRouting() {
-    val service: ProductService = DefaultProductService()
+    val productService: ProductService = DefaultProductService()
 
     route("products") {
         get {
-            call.respond(service.all())
+            when (call.request.queryParameters["forCard"]) {
+                null, "0" -> {
+                    call.respond(productService.all())
+                }
+                "1" -> {
+                    call.respond(productService.allCard())
+                }
+                else -> {
+                    call.respondText("forCard parameter could only be 0 or 1", status = HttpStatusCode.BadRequest)
+                }
+            }
         }
     }
 
     route("product") {
         post {
             val product = call.receive<ProductRequest>()
-            val savedProduct = service.save(product)
+            val savedProduct = productService.save(product)
             call.respond(status = HttpStatusCode.Created, savedProduct)
         }
         get("{id?}") {
@@ -32,8 +42,17 @@ fun Route.productRouting() {
                     status = HttpStatusCode.BadRequest
                 )
             )
-            val product = service.get(id)
-            call.respond(product)
+            when (call.request.queryParameters["forCard"]) {
+                null, "0" -> {
+                    call.respond(productService.get(id))
+                }
+                "1" -> {
+                    call.respond(productService.getCard(id))
+                }
+                else -> {
+                    call.respondText("forCard parameter could only be 0 or 1", status = HttpStatusCode.BadRequest)
+                }
+            }
         }
         put("{id?}") {
             val id = UUID.fromString(
@@ -43,7 +62,7 @@ fun Route.productRouting() {
                 )
             )
             val product = call.receive<ProductRequest>()
-            val updatedProduct = service.update(id, product)
+            val updatedProduct = productService.update(id, product)
             call.respond(updatedProduct)
         }
         delete("{id?}") {
@@ -53,7 +72,7 @@ fun Route.productRouting() {
                     status = HttpStatusCode.BadRequest
                 )
             )
-            service.delete(id)
+            productService.delete(id)
             call.respondText("Product with id $id removed successfully")
         }
     }

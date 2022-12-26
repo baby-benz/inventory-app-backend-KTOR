@@ -1,6 +1,6 @@
-package com.example.domain.models
+package com.example.domain.model
 
-import com.example.domain.dto.response.product_category.ProductCategoryResponse
+import com.example.service.impl.so.impl.ProductCategorySO
 import org.jetbrains.exposed.dao.UUIDEntity
 import org.jetbrains.exposed.dao.UUIDEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
@@ -11,10 +11,10 @@ object ProductCategories : UUIDTable("category") {
     val category = varchar("category", 256)
 }
 
-class ProductCategory(id: EntityID<UUID>): UUIDEntity(id) {
+class ProductCategory(id: EntityID<UUID>) : UUIDEntity(id) {
     companion object : UUIDEntityClass<ProductCategory>(ProductCategories)
 
     var category by ProductCategories.category
 
-    fun toResponse() = ProductCategoryResponse(this)
+    fun toSo() = ProductCategorySO(this)
 }

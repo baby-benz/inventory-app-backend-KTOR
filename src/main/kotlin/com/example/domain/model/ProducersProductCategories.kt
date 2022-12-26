@@ -1,4 +1,4 @@
-package com.example.domain.models
+package com.example.domain.model
 
 import org.jetbrains.exposed.dao.id.UUIDTable
 

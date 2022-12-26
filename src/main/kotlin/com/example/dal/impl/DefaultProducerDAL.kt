@@ -3,35 +3,39 @@ package com.example.dal.impl
 import com.example.dal.DatabaseFactory.dbQuery
 import com.example.dal.ProducerDAL
 import com.example.domain.dto.request.producer.ProducerRequest
-import com.example.domain.dto.response.producer.ProducerResponse
-import com.example.domain.models.*
-import org.jetbrains.exposed.sql.*
+import com.example.domain.model.*
+import com.example.service.impl.so.impl.ProducerSO
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
+import org.jetbrains.exposed.sql.deleteWhere
+import org.jetbrains.exposed.sql.update
 import java.util.*
 
 class DefaultProducerDAL : ProducerDAL {
-    override suspend fun all(): List<ProducerResponse> = dbQuery {
-        Producer.all().map { producer -> producer.toResponse() }
+    override suspend fun all(): Iterable<ProducerSO> = dbQuery {
+        Producer.all().map { it.toSo() }
     }
 
-    override suspend fun find(id: UUID): ProducerResponse? = dbQuery {
-        Producer.find { Producers.id eq id }.singleOrNull()?.toResponse()
+    override suspend fun find(id: UUID): ProducerSO? = dbQuery {
+        Producer.find { Producers.id eq id }.singleOrNull()?.toSo()
     }
 
-    override suspend fun save(toSave: ProducerRequest): ProducerResponse = dbQuery {
+    override suspend fun save(toSave: ProducerRequest): ProducerSO = dbQuery {
         val categories = ProductCategory.find { ProductCategories.id inList toSave.productCategoryIds }
         Producer.new {
             name = toSave.name
             productCategories = categories
-        }.toResponse()
+        }.toSo()
     }
 
-    override suspend fun save(id: UUID, toSave: ProducerRequest): ProducerResponse = dbQuery {
+    override suspend fun save(
+        id: UUID,
+        toSave: ProducerRequest,
+    ): ProducerSO = dbQuery {
         val categories = ProductCategory.find { ProductCategories.id inList toSave.productCategoryIds }
         Producer.new(id) {
             name = toSave.name
             productCategories = categories
-        }.toResponse()
+        }.toSo()
     }
 
     override suspend fun update(id: UUID, toUpdate: ProducerRequest): Boolean = dbQuery {
@@ -43,7 +47,8 @@ class DefaultProducerDAL : ProducerDAL {
         } else {
             val producer = Producer[id]
             producer.name = toUpdate.name
-            producer.productCategories = ProductCategory.find { ProductCategories.id inList toUpdate.productCategoryIds }
+            producer.productCategories =
+                ProductCategory.find { ProductCategories.id inList toUpdate.productCategoryIds }
             /*ProducersProductCategories.deleteWhere { (producerId eq id) and (productCategoryId notInList toUpdate.productCategoryIds) }
             toUpdate.productCategoryIds.forEach { category ->
                 ProducersProductCategories.insertIgnore {

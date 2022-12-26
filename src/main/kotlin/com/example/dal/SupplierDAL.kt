@@ -1,6 +1,6 @@
 package com.example.dal
 
 import com.example.domain.dto.request.supplier.SupplierRequest
-import com.example.domain.dto.response.supplier.SupplierResponse
+import com.example.service.impl.so.impl.SupplierSO
 
-interface SupplierDAL : DAL<SupplierRequest, SupplierResponse>
+interface SupplierDAL : DAL<SupplierRequest, SupplierSO>

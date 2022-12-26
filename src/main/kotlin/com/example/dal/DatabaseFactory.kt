@@ -1,6 +1,6 @@
 package com.example.dal
 
-import com.example.domain.models.*
+import com.example.domain.model.*
 import kotlinx.coroutines.Dispatchers
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils

@@ -1,14 +1,12 @@
 package com.example.service
 
-import com.example.dal.DAL
-import com.example.domain.dto.request.producer.ProducerRequest
 import com.example.domain.dto.request.product.ProductRequest
-import com.example.domain.dto.request.supplier.SupplierRequest
-import com.example.domain.dto.response.producer.ProducerResponse
-import com.example.domain.dto.response.product.ProductResponse
-import com.example.domain.dto.response.supplier.SupplierResponse
+import com.example.domain.dto.response.product.CardProductResponse
+import com.example.domain.dto.response.product.DefaultProductResponse
+import java.util.*
 
-interface ProductService : Service<ProductRequest, ProductResponse> {
-    val producerDal: DAL<ProducerRequest, ProducerResponse>
-    val supplierDal: DAL<SupplierRequest, SupplierResponse>
+interface ProductService : Service<ProductRequest, DefaultProductResponse> {
+    suspend fun allCard() : Collection<CardProductResponse>
+
+    suspend fun getCard(id: UUID): CardProductResponse
 }

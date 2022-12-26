@@ -1,16 +1,9 @@
 package com.example.domain.dto.response.supplier
 
-import com.example.domain.dto.serialization.UUIDSerializer
-import com.example.domain.models.Supplier
-import kotlinx.serialization.Serializable
-import java.util.*
+import com.example.domain.dto.response.Response
 
-@Serializable
-data class SupplierResponse(
-    @Serializable(with = UUIDSerializer::class) val id: UUID,
-    val name: String,
-    val phone: String,
-    val email: String
-) {
-    constructor(supplier: Supplier) : this(supplier.id.value, supplier.name, supplier.phone, supplier.email)
+abstract class SupplierResponse : Response() {
+    abstract val name: String
+    abstract val phone: String
+    abstract val email: String
 }

@@ -1,6 +1,6 @@
-package com.example.domain.models
+package com.example.domain.model
 
-import com.example.domain.dto.response.supplier.SupplierResponse
+import com.example.service.impl.so.impl.SupplierSO
 import org.jetbrains.exposed.dao.UUIDEntity
 import org.jetbrains.exposed.dao.UUIDEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
@@ -13,12 +13,12 @@ object Suppliers : UUIDTable("supplier") {
     val email = varchar("email", 64)
 }
 
-class Supplier(id: EntityID<UUID>): UUIDEntity(id) {
+class Supplier(id: EntityID<UUID>) : UUIDEntity(id) {
     companion object : UUIDEntityClass<Supplier>(Suppliers)
 
     var name by Suppliers.name
     var phone by Suppliers.phone
     var email by Suppliers.email
 
-    fun toResponse() = SupplierResponse(this)
+    fun toSo() = SupplierSO(this)
 }

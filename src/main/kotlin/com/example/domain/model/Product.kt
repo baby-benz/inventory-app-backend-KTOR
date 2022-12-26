@@ -1,6 +1,6 @@
-package com.example.domain.models
+package com.example.domain.model
 
-import com.example.domain.dto.response.product.ProductResponse
+import com.example.service.impl.so.impl.ProductSO
 import org.jetbrains.exposed.dao.UUIDEntity
 import org.jetbrains.exposed.dao.UUIDEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
@@ -15,7 +15,7 @@ object Products : UUIDTable("product") {
     val supplier = reference("supplier_id", Suppliers, onDelete = ReferenceOption.RESTRICT)
 }
 
-class Product(id: EntityID<UUID>): UUIDEntity(id) {
+class Product(id: EntityID<UUID>) : UUIDEntity(id) {
     companion object : UUIDEntityClass<Product>(Products)
 
     var name by Products.name
@@ -23,5 +23,5 @@ class Product(id: EntityID<UUID>): UUIDEntity(id) {
     var producer by Producer referencedOn Products.producer
     var supplier by Supplier referencedOn Products.supplier
 
-    fun toResponse() = ProductResponse(this)
+    fun toSo() = ProductSO(this)
 }

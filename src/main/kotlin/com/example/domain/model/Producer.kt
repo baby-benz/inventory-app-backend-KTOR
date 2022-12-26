@@ -1,6 +1,6 @@
-package com.example.domain.models
+package com.example.domain.model
 
-import com.example.domain.dto.response.producer.ProducerResponse
+import com.example.service.impl.so.impl.ProducerSO
 import org.jetbrains.exposed.dao.UUIDEntity
 import org.jetbrains.exposed.dao.UUIDEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
@@ -17,5 +17,5 @@ class Producer(id: EntityID<UUID>) : UUIDEntity(id) {
     var name by Producers.name
     var productCategories by ProductCategory via ProducersProductCategories
 
-    fun toResponse() = ProducerResponse(this)
+    fun toSo() = ProducerSO(this)
 }

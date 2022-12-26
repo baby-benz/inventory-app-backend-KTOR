@@ -1,13 +1,7 @@
 package com.example.domain.dto.response.product_category
 
-import com.example.domain.dto.request.product_category.ProductCategoryRequest
-import com.example.domain.dto.serialization.UUIDSerializer
-import com.example.domain.models.ProductCategory
-import kotlinx.serialization.Serializable
-import java.util.*
+import com.example.domain.dto.response.Response
 
-@Serializable
-data class ProductCategoryResponse(@Serializable(with = UUIDSerializer::class) val id: UUID, val category: String) {
-    constructor(category: ProductCategory) : this(category.id.value, category.category)
-    constructor(id: UUID, category: ProductCategoryRequest) : this(id, category.category)
+abstract class ProductCategoryResponse : Response() {
+    abstract val category: String
 }

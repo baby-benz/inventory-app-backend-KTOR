@@ -5,25 +5,24 @@ import com.example.dal.SupplierDAL
 import com.example.dal.impl.DefaultProductDAL
 import com.example.dal.impl.DefaultSupplierDAL
 import com.example.domain.dto.request.supplier.SupplierRequest
-import com.example.domain.dto.response.supplier.SupplierResponse
+import com.example.domain.dto.response.supplier.DefaultSupplierResponse
 import com.example.service.SupplierService
 import com.example.service.impl.exceptions.ReferenceViolationException
 import java.util.*
 
-class DefaultSupplierService : SupplierService {
-    override val dal: SupplierDAL = DefaultSupplierDAL()
-    override val productDal: ProductDAL = DefaultProductDAL()
+class DefaultSupplierService(override val dal: SupplierDAL = DefaultSupplierDAL()) : SupplierService {
+    private val productDal: ProductDAL = DefaultProductDAL()
 
     override suspend fun delete(id: UUID) {
         if (productDal.existsBySupplier(id)) throw ReferenceViolationException(id.toString(), "Product", "Supplier")
         super.delete(id)
     }
 
-    override suspend fun update(id: UUID, toUpdate: SupplierRequest): SupplierResponse {
+    override suspend fun update(id: UUID, toUpdate: SupplierRequest): DefaultSupplierResponse {
         return if (dal.update(id, toUpdate)) {
-            SupplierResponse(id, name = toUpdate.name, phone = toUpdate.phone, email = toUpdate.email)
+            DefaultSupplierResponse(id, toUpdate.name, toUpdate.phone, toUpdate.email)
         } else {
-            dal.save(id, toUpdate)
+            dal.save(id, toUpdate).toDefaultResponse()
         }
     }
 }

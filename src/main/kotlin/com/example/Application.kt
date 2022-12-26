@@ -15,13 +15,15 @@ fun main(args: Array<String>) {
 fun generateSslCert() {
     val pass = "foobar"
     val keyStoreFile = File("build/keystore.jks")
-    val keyStore = buildKeyStore {
-        certificate("myCert") {
-            password = pass
-            domains = listOf("127.0.0.1", "0.0.0.0", "localhost")
+    if (!keyStoreFile.exists()) {
+        val keyStore = buildKeyStore {
+            certificate("myCert") {
+                password = pass
+                domains = listOf("127.0.0.1", "0.0.0.0", "localhost")
+            }
         }
+        keyStore.saveToFile(keyStoreFile, pass)
     }
-    keyStore.saveToFile(keyStoreFile, pass)
 }
 
 fun Application.module() {

@@ -7,20 +7,19 @@ import com.example.dal.impl.DefaultProducerDAL
 import com.example.dal.impl.DefaultProductCategoryDAL
 import com.example.dal.impl.DefaultProductDAL
 import com.example.domain.dto.request.producer.ProducerRequest
-import com.example.domain.dto.response.producer.ProducerResponse
+import com.example.domain.dto.response.producer.DefaultProducerResponse
 import com.example.service.ProducerService
 import com.example.service.impl.exceptions.BadReferenceException
 import com.example.service.impl.exceptions.ReferenceViolationException
 import java.util.*
 
-class DefaultProducerService : ProducerService {
-    override val dal: ProducerDAL = DefaultProducerDAL()
-    override val productCategoryDal: ProductCategoryDAL = DefaultProductCategoryDAL()
-    override val productDal: ProductDAL = DefaultProductDAL()
+class DefaultProducerService(override val dal: ProducerDAL = DefaultProducerDAL()) : ProducerService {
+    private val productCategoryDal: ProductCategoryDAL = DefaultProductCategoryDAL()
+    private val productDal: ProductDAL = DefaultProductDAL()
 
-    override suspend fun save(toSave: ProducerRequest): ProducerResponse {
+    override suspend fun save(toSave: ProducerRequest): DefaultProducerResponse {
         checkReference(toSave)
-        return dal.save(toSave)
+        return super.save(toSave)
     }
 
     override suspend fun delete(id: UUID) {
@@ -28,12 +27,12 @@ class DefaultProducerService : ProducerService {
         super.delete(id)
     }
 
-    override suspend fun update(id: UUID, toUpdate: ProducerRequest): ProducerResponse {
+    override suspend fun update(id: UUID, toUpdate: ProducerRequest): DefaultProducerResponse {
         checkReference(toUpdate)
         return if (dal.update(id, toUpdate)) {
-            ProducerResponse(id, toUpdate.name, toUpdate.productCategoryIds)
+            DefaultProducerResponse(id, toUpdate.name, toUpdate.productCategoryIds)
         } else {
-            dal.save(id, toUpdate)
+            dal.save(id, toUpdate).toDefaultResponse()
         }
     }
 
