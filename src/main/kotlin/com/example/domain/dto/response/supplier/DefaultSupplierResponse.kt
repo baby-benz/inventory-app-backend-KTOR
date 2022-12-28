@@ -9,6 +9,6 @@ import java.util.*
 data class DefaultSupplierResponse(
     @Serializable(with = UUIDSerializer::class) override val id: UUID,
     override val name: String,
-    override val phone: String,
-    override val email: String
+    val phone: String,
+    val email: String
 ) : SupplierResponse()
