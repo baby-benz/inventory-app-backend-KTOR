@@ -1,7 +1,8 @@
 package com.example.domain.dto.response.product
 
+import com.example.domain.dto.response.producer.CardProducerResponse
+import com.example.domain.dto.response.supplier.CardSupplierResponse
 import com.example.domain.dto.serialization.UUIDSerializer
-import com.example.domain.model.Product
 import kotlinx.serialization.Serializable
 import java.util.*
 
@@ -10,6 +11,6 @@ data class CardProductResponse(
     @Serializable(with = UUIDSerializer::class) override val id: UUID,
     override val name: String,
     override val price: Double,
-    val producerName: String,
-    val supplierName: String
+    val producerName: CardProducerResponse,
+    val supplierName: CardSupplierResponse
 ) : ProductResponse()
