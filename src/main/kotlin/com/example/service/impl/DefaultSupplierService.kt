@@ -5,8 +5,10 @@ import com.example.dal.SupplierDAL
 import com.example.dal.impl.DefaultProductDAL
 import com.example.dal.impl.DefaultSupplierDAL
 import com.example.domain.dto.request.supplier.SupplierRequest
+import com.example.domain.dto.response.supplier.CardSupplierResponse
 import com.example.domain.dto.response.supplier.DefaultSupplierResponse
 import com.example.service.SupplierService
+import com.example.service.impl.exceptions.NotFoundException
 import com.example.service.impl.exceptions.ReferenceViolationException
 import java.util.*
 
@@ -24,5 +26,13 @@ class DefaultSupplierService(override val dal: SupplierDAL = DefaultSupplierDAL(
         } else {
             dal.save(id, toUpdate).toDefaultResponse()
         }
+    }
+
+    override suspend fun allCard(): Collection<CardSupplierResponse> {
+        return dal.all().map { it.toCardResponse() }
+    }
+
+    override suspend fun getCard(id: UUID): CardSupplierResponse {
+        return dal.find(id)?.toCardResponse() ?: throw NotFoundException(id.toString())
     }
 }

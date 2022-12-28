@@ -7,9 +7,11 @@ import com.example.dal.impl.DefaultProducerDAL
 import com.example.dal.impl.DefaultProductCategoryDAL
 import com.example.dal.impl.DefaultProductDAL
 import com.example.domain.dto.request.producer.ProducerRequest
+import com.example.domain.dto.response.producer.CardProducerResponse
 import com.example.domain.dto.response.producer.DefaultProducerResponse
 import com.example.service.ProducerService
 import com.example.service.impl.exceptions.BadReferenceException
+import com.example.service.impl.exceptions.NotFoundException
 import com.example.service.impl.exceptions.ReferenceViolationException
 import java.util.*
 
@@ -41,5 +43,13 @@ class DefaultProducerService(override val dal: ProducerDAL = DefaultProducerDAL(
         if (productCategoriesInDbSize != producer.productCategoryIds.size.toLong()) {
             throw BadReferenceException()
         }
+    }
+
+    override suspend fun allCard(): Collection<CardProducerResponse> {
+        return dal.all().map { it.toCardResponse() }
+    }
+
+    override suspend fun getCard(id: UUID): CardProducerResponse {
+        return dal.find(id)?.toCardResponse() ?: throw NotFoundException(id.toString())
     }
 }

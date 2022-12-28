@@ -6,7 +6,7 @@ import com.example.domain.dto.response.product.DefaultProductResponse
 import java.util.*
 
 interface ProductService : Service<ProductRequest, DefaultProductResponse> {
-    suspend fun allCard() : Collection<CardProductResponse>
+    suspend fun allCard(): Collection<CardProductResponse>
 
     suspend fun getCard(id: UUID): CardProductResponse
 }

@@ -11,18 +11,18 @@ import io.ktor.server.routing.*
 import java.util.*
 
 fun Route.productCategoryRouting() {
-    val service: ProductCategoryService = DefaultProductCategoryService()
+    val productCategoryService: ProductCategoryService = DefaultProductCategoryService()
 
     route("product-categories") {
         get {
-            call.respond(service.all())
+            call.respond(productCategoryService.all())
         }
     }
 
     route("product-category") {
         post {
             val productCategory = call.receive<ProductCategoryRequest>()
-            val savedProductCategory = service.save(productCategory)
+            val savedProductCategory = productCategoryService.save(productCategory)
             call.respond(status = HttpStatusCode.Created, savedProductCategory)
         }
         get("{id?}") {
@@ -32,7 +32,7 @@ fun Route.productCategoryRouting() {
                     status = HttpStatusCode.BadRequest
                 )
             )
-            val productCategory = service.get(id)
+            val productCategory = productCategoryService.get(id)
             call.respond(productCategory)
         }
         put("{id?}") {
@@ -43,7 +43,7 @@ fun Route.productCategoryRouting() {
                 )
             )
             val productCategory = call.receive<ProductCategoryRequest>()
-            val updatedProductCategory = service.update(id, productCategory)
+            val updatedProductCategory = productCategoryService.update(id, productCategory)
             call.respond(updatedProductCategory)
         }
         delete("{id?}") {
@@ -53,7 +53,7 @@ fun Route.productCategoryRouting() {
                     status = HttpStatusCode.BadRequest
                 )
             )
-            service.delete(id)
+            productCategoryService.delete(id)
             call.respondText("ProductCategory with id $id removed successfully")
         }
     }

@@ -11,18 +11,28 @@ import io.ktor.server.routing.*
 import java.util.*
 
 fun Route.producerRouting() {
-    val service: ProducerService = DefaultProducerService()
+    val producerService: ProducerService = DefaultProducerService()
 
     route("producers") {
         get {
-            call.respond(service.all())
+            when (call.request.queryParameters["forCard"]) {
+                null, "0" -> {
+                    call.respond(producerService.all())
+                }
+                "1" -> {
+                    call.respond(producerService.allCard())
+                }
+                else -> {
+                    call.respondText("forCard parameter could only be 0 or 1", status = HttpStatusCode.BadRequest)
+                }
+            }
         }
     }
 
     route("producer") {
         post {
             val product = call.receive<ProducerRequest>()
-            val savedProducer = service.save(product)
+            val savedProducer = producerService.save(product)
             call.respond(status = HttpStatusCode.Created, savedProducer)
         }
         get("{id?}") {
@@ -32,7 +42,17 @@ fun Route.producerRouting() {
                     status = HttpStatusCode.BadRequest
                 )
             )
-            call.respond(service.get(id))
+            when (call.request.queryParameters["forCard"]) {
+                null, "0" -> {
+                    call.respond(producerService.get(id))
+                }
+                "1" -> {
+                    call.respond(producerService.getCard(id))
+                }
+                else -> {
+                    call.respondText("forCard parameter could only be 0 or 1", status = HttpStatusCode.BadRequest)
+                }
+            }
         }
         put("{id?}") {
             val id = UUID.fromString(
@@ -42,7 +62,7 @@ fun Route.producerRouting() {
                 )
             )
             val producer = call.receive<ProducerRequest>()
-            val updatedProducer = service.update(id, producer)
+            val updatedProducer = producerService.update(id, producer)
             call.respond(updatedProducer)
         }
         delete("{id?}") {
@@ -52,7 +72,7 @@ fun Route.producerRouting() {
                     status = HttpStatusCode.BadRequest
                 )
             )
-            service.delete(id)
+            producerService.delete(id)
             call.respondText("Producer with id $id removed successfully")
         }
     }

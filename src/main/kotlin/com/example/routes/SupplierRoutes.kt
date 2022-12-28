@@ -11,18 +11,28 @@ import io.ktor.server.routing.*
 import java.util.*
 
 fun Route.supplierRouting() {
-    val service: SupplierService = DefaultSupplierService()
+    val supplierService: SupplierService = DefaultSupplierService()
 
     route("suppliers") {
         get {
-            call.respond(service.all())
+            when (call.request.queryParameters["forCard"]) {
+                null, "0" -> {
+                    call.respond(supplierService.all())
+                }
+                "1" -> {
+                    call.respond(supplierService.allCard())
+                }
+                else -> {
+                    call.respondText("forCard parameter could only be 0 or 1", status = HttpStatusCode.BadRequest)
+                }
+            }
         }
     }
 
     route("supplier") {
         post {
             val supplier = call.receive<SupplierRequest>()
-            val savedSupplier = service.save(supplier)
+            val savedSupplier = supplierService.save(supplier)
             call.respond(status = HttpStatusCode.Created, savedSupplier)
         }
         get("{id?}") {
@@ -32,8 +42,17 @@ fun Route.supplierRouting() {
                     status = HttpStatusCode.BadRequest
                 )
             )
-            val supplier = service.get(id)
-            call.respond(supplier)
+            when (call.request.queryParameters["forCard"]) {
+                null, "0" -> {
+                    call.respond(supplierService.get(id))
+                }
+                "1" -> {
+                    call.respond(supplierService.getCard(id))
+                }
+                else -> {
+                    call.respondText("forCard parameter could only be 0 or 1", status = HttpStatusCode.BadRequest)
+                }
+            }
         }
         put("{id?}") {
             val id = UUID.fromString(
@@ -43,7 +62,7 @@ fun Route.supplierRouting() {
                 )
             )
             val supplier = call.receive<SupplierRequest>()
-            val updatedSupplier = service.update(id, supplier)
+            val updatedSupplier = supplierService.update(id, supplier)
             call.respond(updatedSupplier)
         }
         delete("{id?}") {
@@ -53,7 +72,7 @@ fun Route.supplierRouting() {
                     status = HttpStatusCode.BadRequest
                 )
             )
-            service.delete(id)
+            supplierService.delete(id)
             call.respondText("Supplier with id $id removed successfully")
         }
     }
