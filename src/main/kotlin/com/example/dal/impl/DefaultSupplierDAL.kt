@@ -14,7 +14,7 @@ class DefaultSupplierDAL : SupplierDAL {
     private fun resultRowToSupplier(row: ResultRow) = SupplierSO(Supplier(row[Suppliers.id]))
 
     override suspend fun all(): Iterable<SupplierSO> = dbQuery {
-        Suppliers.selectAll().map(::resultRowToSupplier)
+        Supplier.all().map { it.toSo() }
     }
 
     override suspend fun find(id: UUID): SupplierSO? = dbQuery {
@@ -43,6 +43,19 @@ class DefaultSupplierDAL : SupplierDAL {
             it[phone] = toUpdate.phone
             it[email] = toUpdate.email
         } > 0
+    }
+
+    override suspend fun updateAndGet(id: UUID, toUpdate: SupplierRequest): SupplierSO? = dbQuery {
+        val recordsUpdated = Suppliers.update({ Suppliers.id eq id }) {
+            it[name] = toUpdate.name
+            it[phone] = toUpdate.phone
+            it[email] = toUpdate.email
+        }
+        if (recordsUpdated < 1) {
+            null
+        } else {
+            find(id)
+        }
     }
 
     override suspend fun delete(id: UUID): Boolean = dbQuery {

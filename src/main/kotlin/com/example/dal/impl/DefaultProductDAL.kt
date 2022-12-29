@@ -49,6 +49,20 @@ class DefaultProductDAL : ProductDAL {
         } > 0
     }
 
+    override suspend fun updateAndGet(id: UUID, toUpdate: ProductRequest): ProductSO? = dbQuery {
+        val recordsUpdated = Products.update({ Products.id eq id }) {
+            it[name] = toUpdate.name
+            it[price] = toUpdate.price
+            it[producer] = toUpdate.producerId
+            it[supplier] = toUpdate.supplierId
+        }
+        if (recordsUpdated < 1) {
+            null
+        } else {
+            Product.find { Products.id eq id }.singleOrNull()?.toSo()
+        }
+    }
+
     override suspend fun delete(id: UUID): Boolean = dbQuery {
         Products.deleteWhere { Products.id eq id } > 0
     }

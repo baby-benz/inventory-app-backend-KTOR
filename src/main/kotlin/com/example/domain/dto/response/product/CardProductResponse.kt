@@ -11,6 +11,6 @@ data class CardProductResponse(
     @Serializable(with = UUIDSerializer::class) override val id: UUID,
     override val name: String,
     override val price: Double,
-    val producerName: CardProducerResponse,
-    val supplierName: CardSupplierResponse
+    val producer: CardProducerResponse,
+    val supplier: CardSupplierResponse
 ) : ProductResponse()

@@ -16,15 +16,9 @@ fun Route.productRouting() {
     route("products") {
         get {
             when (call.request.queryParameters["forCard"]) {
-                null, "0" -> {
-                    call.respond(productService.all())
-                }
-                "1" -> {
-                    call.respond(productService.allCard())
-                }
-                else -> {
-                    call.respondText("forCard parameter could only be 0 or 1", status = HttpStatusCode.BadRequest)
-                }
+                null, "0" -> call.respond(productService.all())
+                "1" -> call.respond(productService.allAsCard())
+                else -> badCardParameterResponse(call)
             }
         }
     }
@@ -32,8 +26,11 @@ fun Route.productRouting() {
     route("product") {
         post {
             val product = call.receive<ProductRequest>()
-            val savedProduct = productService.save(product)
-            call.respond(status = HttpStatusCode.Created, savedProduct)
+            when (call.request.queryParameters["forCard"]) {
+                null, "0" -> call.respond(status = HttpStatusCode.Created, productService.save(product))
+                "1" -> call.respond(status = HttpStatusCode.Created, productService.saveAsCard(product))
+                else -> badCardParameterResponse(call)
+            }
         }
         get("{id?}") {
             val id = UUID.fromString(
@@ -43,15 +40,9 @@ fun Route.productRouting() {
                 )
             )
             when (call.request.queryParameters["forCard"]) {
-                null, "0" -> {
-                    call.respond(productService.get(id))
-                }
-                "1" -> {
-                    call.respond(productService.getCard(id))
-                }
-                else -> {
-                    call.respondText("forCard parameter could only be 0 or 1", status = HttpStatusCode.BadRequest)
-                }
+                null, "0" -> call.respond(productService.get(id))
+                "1" -> call.respond(productService.getAsCard(id))
+                else -> badCardParameterResponse(call)
             }
         }
         put("{id?}") {
@@ -62,8 +53,11 @@ fun Route.productRouting() {
                 )
             )
             val product = call.receive<ProductRequest>()
-            val updatedProduct = productService.update(id, product)
-            call.respond(updatedProduct)
+            when (call.request.queryParameters["forCard"]) {
+                null, "0" -> call.respond(productService.update(id, product))
+                "1" -> call.respond(productService.updateAsCard(id, product))
+                else -> badCardParameterResponse(call)
+            }
         }
         delete("{id?}") {
             val id = UUID.fromString(
@@ -76,4 +70,8 @@ fun Route.productRouting() {
             call.respondText("Product with id $id removed successfully")
         }
     }
+}
+
+private suspend fun badCardParameterResponse(call: ApplicationCall) {
+    call.respondText("forCard parameter could only be 0 or 1", status = HttpStatusCode.BadRequest)
 }

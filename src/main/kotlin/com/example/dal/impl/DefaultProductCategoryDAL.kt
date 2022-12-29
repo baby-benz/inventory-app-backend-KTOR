@@ -39,6 +39,17 @@ class DefaultProductCategoryDAL : ProductCategoryDAL {
         } > 0
     }
 
+    override suspend fun updateAndGet(id: UUID, toUpdate: ProductCategoryRequest): ProductCategorySO? = dbQuery {
+        val recordsUpdated = ProductCategories.update({ ProductCategories.id eq id }) {
+            it[category] = toUpdate.category
+        }
+        if (recordsUpdated < 1) {
+            null
+        } else {
+            find(id)
+        }
+    }
+
     override suspend fun delete(id: UUID) = dbQuery {
         ProducersProductCategories.deleteWhere { productCategoryId eq id }
         ProductCategories.deleteWhere { ProductCategories.id eq id } > 0

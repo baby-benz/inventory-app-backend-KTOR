@@ -60,6 +60,21 @@ class DefaultProducerDAL : ProducerDAL {
         }
     }
 
+    override suspend fun updateAndGet(id: UUID, toUpdate: ProducerRequest): ProducerSO? = dbQuery {
+        val recordsUpdated = Producers.update({ Producers.id eq id }) {
+            it[name] = toUpdate.name
+        }
+        if (recordsUpdated < 1) {
+            null
+        } else {
+            val producer = Producer[id]
+            producer.name = toUpdate.name
+            producer.productCategories =
+                ProductCategory.find { ProductCategories.id inList toUpdate.productCategoryIds }
+            producer.toSo()
+        }
+    }
+
     override suspend fun delete(id: UUID): Boolean = dbQuery {
         ProducersProductCategories.deleteWhere { producerId eq id }
         Producers.deleteWhere { Producers.id eq id } > 0

@@ -6,7 +6,6 @@ import java.util.*
 
 @Serializable
 data class CardSupplierResponse(
-    @Serializable(with = UUIDSerializer::class)
-    override val id: UUID,
+    @Serializable(with = UUIDSerializer::class) override val id: UUID,
     override val name: String
 ) : SupplierResponse()
